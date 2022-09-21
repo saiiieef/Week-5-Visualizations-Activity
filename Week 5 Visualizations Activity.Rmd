@@ -1,0 +1,52 @@
+---
+title: "Week 5 Visualizations Activity"
+author: "Saif Hossain"
+date: "2022-09-21"
+output:
+  pdf_document: default
+  html_document:
+    code_folding: show
+    theme:
+      bootswatch: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include = FALSE}
+#The include = FALSE function hides both the code and output in my output document
+
+#You need to install these packages first to be able to use the functions within them. You can install them from the Tools tab or write a new code chunk: install.packages("package_name"). 
+library(tidyverse)
+library(knitr)
+library(dplyr)
+```
+
+
+## Scatter Plot Explanation
+
+The scatterplot shows me the country with most TV audience share for marketing purposes.
+
+```{r tv, results= TRUE}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/fifa/fifa_countries_audience.csv" #read.csv was used to read the csv file, this came with the base R package. 
+
+fifa_data <- read.csv(url)  #Assigning the url to object 
+
+fifa_data <- subset(fifa_data, tv_audience_share > 4) #Creating a subset of data to give me greatest tv audience share
+
+soccer_data <- select(fifa_data, country, tv_audience_share, gdp_weighted_share)
+
+ggplot(soccer_data, aes(x = country, y = tv_audience_share)) +geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+```
+
+## Histogram Explanation
+
+The histogram explains even if the tv audience share is greater in some countries, countries with higher gdp maybe more profitable for marketing. Since, people have higher income to spend more for merchandise. The countries which will give the best ROI is USA, China and Brazil.
+
+```{r historgram, resultes=TRUE}
+# Creating a histogram, 
+ggplot(data = fifa_data) + geom_bar(mapping = aes(x = country, y =gdp_weighted_share), stat = "identity")
+```
+
